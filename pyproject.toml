@@ -9,7 +9,7 @@ description = "Watch an IMAP mailbox, classify mail by rules, extract fields, tr
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Konstantin Konradi" }]
+authors = [{ name = "Konstantin Konradi", email = "info@fynaxa.de" }]
 keywords = ["imap", "email", "automation", "parsing", "idempotency"]
 dependencies = []
 

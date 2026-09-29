@@ -1,0 +1,95 @@
+# Rules are evaluated by priority, highest first. The first rule that matches
+# wins, so put the specific ones above the general ones.
+#
+# Regular expressions are written as TOML literal strings (single quotes) so
+# that backslashes mean what they mean in a regex. They run case-insensitively
+# and in multiline mode.
+
+[settings]
+state_db = "state/processed.sqlite3"
+search = "UNSEEN"
+poll_seconds = 60
+use_idle = true
+idle_timeout_seconds = 840
+max_attempts = 3
+log_message_ids = false
+
+[[rules]]
+name = "order-confirmation"
+category = "order.confirmation"
+priority = 100
+scope = "full"
+from = '@shop\.example\.com'
+subject = '(bestellbest|order confirmation)'
+extract = [
+    'Bestellnummer:\s*(?P<order_id>[A-Z0-9][A-Z0-9-]{3,})',
+    '(?:Gesamtbetrag|Summe|Total):\s*(?P<amount>[\d.,]+)\s*(?P<currency>EUR|USD)',
+    '(?:Bestelldatum|Datum):\s*(?P<order_date>\d{1,2}\.\d{1,2}\.\d{4})',
+]
+require = ["order_id"]
+
+[rules.fields]
+amount = "decimal_de"
+order_date = "date_de"
+currency = "upper"
+
+[[rules.actions]]
+type = "write_json"
+path = "out/orders.jsonl"
+
+[[rules.actions]]
+type = "mark_seen"
+
+[[rules.actions]]
+type = "move"
+folder = "Processed/Orders"
+
+[[rules]]
+name = "invoice-dunning"
+category = "invoice.dunning"
+priority = 90
+subject = '(mahnung|zahlungserinnerung)'
+extract = [
+    '(?:Rechnungsnummer|Rechnung)\s*:?\s*(?P<invoice_no>[A-Z0-9][A-Z0-9-/]{3,})',
+    '(?:Offener Betrag|Gesamtbetrag|Summe):\s*(?P<amount>[\d.,]+)\s*(?P<currency>EUR|USD)',
+    'Mahnstufe:\s*(?P<dunning_level>\d)',
+]
+require = ["invoice_no"]
+
+[rules.fields]
+amount = "decimal_de"
+
+[[rules.actions]]
+type = "write_json"
+path = "out/dunning.jsonl"
+
+[[rules]]
+name = "invoice-incoming"
+category = "invoice.incoming"
+priority = 10
+subject = '(rechnung|invoice)'
+extract = [
+    '(?:Rechnungsnummer|Rechnung)\s*:?\s*(?P<invoice_no>[A-Z0-9][A-Z0-9-/]{3,})',
+    '(?:Gesamtbetrag|Summe|Total):\s*(?P<amount>[\d.,]+)\s*(?P<currency>EUR|USD)',
+]
+
+[rules.fields]
+amount = "decimal_de"
+
+[[rules.actions]]
+type = "write_json"
+path = "out/invoices.jsonl"
+
+[[rules]]
+name = "support-request"
+category = "support.request"
+priority = 50
+scope = "new"
+body = '(kann mich nicht anmelden|passwort|zugang gesperrt|funktioniert nicht)'
+extract = [
+    '(?:Kundennummer|Kunden-Nr\.?)\s*:?\s*(?P<customer_no>\d{4,})',
+]
+
+[[rules.actions]]
+type = "write_json"
+path = "out/support.jsonl"

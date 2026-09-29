@@ -1,0 +1,27 @@
+From: "Shop Beispiel GmbH" <bestellungen@shop.example.com>
+To: orders@example-freelancer.de
+Subject: Bestellbestaetigung 10050
+Date: Sun, 20 Sep 2026 11:00:00 +0200
+Message-ID: <order-10050@shop.example.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="m1"
+
+--m1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Bestellnummer: A-10050
+Bestelldatum: 20.09.2026
+Gesamtbetrag: 49,00 EUR
+
+Die Rechnung liegt als PDF bei.
+
+--m1
+Content-Type: application/pdf; name="Rechnung.pdf"
+Content-Disposition: attachment; filename="Rechnung.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQKJfbk/N8KMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFI+Pgpl
+bmRvYmoKdHJhaWxlcgo8PC9Sb290IDEgMCBSPj4KJSVFT0YK
+
+--m1--

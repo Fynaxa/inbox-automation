@@ -1,0 +1,31 @@
+From: "Shop Beispiel GmbH" <bestellungen@shop.example.com>
+To: orders@example-freelancer.de
+Subject: =?utf-8?Q?Bestellbest=C3=A4tigung_10042?=
+Date: Fri, 19 Sep 2026 10:12:03 +0200
+Message-ID: <order-10042@shop.example.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="b1"
+
+--b1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Guten Tag Herr M=C3=BCller,
+
+vielen Dank f=C3=BCr Ihre Bestellung.
+
+Bestellnummer: A-10042
+Bestelldatum: 19.09.2026
+Gesamtbetrag: 1.234,56 EUR
+
+Mit freundlichen Gr=C3=BC=C3=9Fen
+Shop Beispiel GmbH
+
+--b1
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><p>Bestellnummer: A-10042</p>
+<p>Gesamtbetrag: 1.234,56 EUR</p></body></html>
+
+--b1--
